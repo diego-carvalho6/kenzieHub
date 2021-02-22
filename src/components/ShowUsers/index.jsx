@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-
+import style from "./style.css";
 const ShowUsers = () => {
   const [nextUrl, setNextUrl] = useState(
     "https://kenziehub.me/users?perPage=15&page=1"
@@ -11,9 +11,9 @@ const ShowUsers = () => {
   });
   return (
     <>
-      <div>
+      <div className="box">
         {users.map((element, index) => (
-          <div key={index}>
+          <div key={index} className="card">
             <div>{element.name}</div>
             <div>{element.email}</div>
             <div>{element.course_module}</div>

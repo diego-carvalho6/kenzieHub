@@ -56,10 +56,10 @@ const AddTecks = ({ setTecks }) => {
     axios
       .post(
         `https://kenziehub.me/users/techs`,
+        data,
         {
           headers: { Authorization: `Bearer ${token}` },
-        },
-        data
+        }
       )
       .then((response) => {
         reset();
