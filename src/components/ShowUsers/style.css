@@ -1,13 +1,24 @@
 .box {
   width: 90%;
   background-color: pink;
+  flex-direction: row;
 }
 .card {
+  margin: "10px";
   float: left;
+
   width: 200px;
   height: 400px;
   border: 2px solid gray;
   background-color: green;
   border-radius: 25px;
   text-align: center;
+}
+.App-header {
+  background-color: #d1d1d1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+
+  min-width: 250px;
 }

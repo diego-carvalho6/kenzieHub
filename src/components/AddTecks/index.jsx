@@ -12,7 +12,11 @@ const useStyles = makeStyles((theme) => ({
     margin: "3px",
   },
   form: {
+    justifyContent: "center",
+    alignContent: "center",
     fontFamily: "roboto",
+    alignItems: "center",
+    textAlign: "center",
   },
   textField: {
     minWidth: "200px",
@@ -32,35 +36,21 @@ const AddTecks = ({ setTecks }) => {
   const [user, setUser] = useState({});
 
   const [token, setToken] = useState(() => {
-    const sessionToken = localStorage.getItem("token") || "";
-    return JSON.parse(sessionToken);
+    const sessionToken = localStorage.getItem("token");
+    let bearer = "Bearer";
+    return bearer + "" + JSON.parse(sessionToken);
   });
 
-  useEffect(() => {
-    axios
-      .get("https://kenziehub.me/profile", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((response) => {
-        setUser(response.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);
+  useEffect(() => {}, [token]);
   const history = useHistory();
   const classes = useStyles();
   const { register, handleSubmit, errors, reset } = useForm();
   const handleForm = (data) => {
     console.log(data, token);
     axios
-      .post(
-        `https://kenziehub.me/users/techs`,
-        data,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
+      .post("https://kenziehub.me/users/techs", data, {
+        headers: { Authorization: `bearer ${token}` },
+      })
       .then((response) => {
         reset();
         history.push("/home");
@@ -70,7 +60,6 @@ const AddTecks = ({ setTecks }) => {
 
   return (
     <>
-      <h1>new tech</h1>
       <form className={classes.form} onSubmit={handleSubmit(handleForm)}>
         <TextField
           className={classes.textField}
@@ -96,6 +85,14 @@ const AddTecks = ({ setTecks }) => {
           color="primary"
         >
           submit
+        </Button>
+        <Button
+          onClick={() => history.push("/home")}
+          className={classes.button}
+          variant="contained"
+          color="secondary"
+        >
+          voltar
         </Button>
       </form>
     </>
