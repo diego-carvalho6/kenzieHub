@@ -1,3 +1,4 @@
+import Avatar from "@material-ui/core/Avatar";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
@@ -6,7 +7,8 @@ import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   button: {
-    width: "100%",
+    width: "51%",
+    minWidth: "250px",
     margin: "3px",
   },
   form: {
@@ -19,10 +21,37 @@ const useStyles = makeStyles((theme) => ({
     margin: "7px",
   },
   box: {
-    minWidth: "250px",
+    boxSizing: "border-box",
+    minWidth: "200px",
     width: "100%",
+    padding: "25px",
     maxWidth: "600px",
     textAlign: "center",
+    backgroundColor: "black",
+  },
+  boxInside: {
+    boxSizing: "border-box",
+    alignSelf: "center",
+    textAlign: "left",
+    fontFamily: "Roboto",
+    fontWeight: "bold",
+    backgroundColor: "yellow",
+    minWidth: "230px",
+    width: "100%",
+
+    maxWidth: "600px",
+  },
+  user: {
+    padding: "1rem",
+    lineHeight: "1.4rem",
+    backgroundColor: "gray",
+    border: "1px solid",
+  },
+  techs: {
+    padding: "1rem",
+    lineHeight: "1.4rem",
+    marginTop: "20px",
+    backgroundColor: "gray",
   },
 }));
 
@@ -30,7 +59,7 @@ const HomePage = () => {
   const classes = useStyles();
   const history = useHistory();
   const [user, setUser] = useState({});
-  const [tecks, setTecks] = useState(user.techs);
+
   const [token, setToken] = useState(() => {
     const sessionToken = localStorage.getItem("token") || "";
     return JSON.parse(sessionToken);
@@ -49,19 +78,24 @@ const HomePage = () => {
       });
   }, []);
   return (
-    <div>
-      <div>
-        {user.name}
-        {console.log(user)}
-      </div>
+    <div className={classes.box}>
+      <div className={classes.boxInside}>
+        <div className={classes.user}>
+          <Avatar alt={user.name} src={user.Avatar}></Avatar>
+          <div>
+            username: {user.name}
+            {console.log(user)}
+          </div>
 
-      <div>{user.bio}</div>
+          <div>biography: {user.bio}</div>
 
-      <div>{user.course_module}</div>
+          <div>course module: {user.course_module}</div>
 
-      <div>{user.email}</div>
-      <div>
-        <div>
+          <div>email: {user.email}</div>
+        </div>
+
+        <div className={classes.techs}>
+          <h2>techs</h2>
           {user.techs?.map((element, index) => (
             <div key={index}>
               {element.title}: {element.status}
@@ -69,6 +103,7 @@ const HomePage = () => {
           ))}
         </div>
       </div>
+
       <Button
         className={classes.button}
         onClick={() => history.push("/newTeck")}
