@@ -7,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -31,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Login = () => {
+  const [error, setError] = useState(null);
   const schema = yup.object().shape({
     email: yup.string().email("email invalido").required("campo obrigatorio"),
     password: yup
@@ -56,7 +58,7 @@ const Login = () => {
         reset();
         history.push("/home");
       })
-      .catch((e) => console.log(e));
+      .catch((e) => setError("email ou senha incorretos"));
   };
   const sendTo = (path) => {
     history.push(path);
@@ -105,6 +107,7 @@ const Login = () => {
         >
           Register
         </Button>
+        {error ? <div>{error}</div> : console.log(error)}
       </div>
     </div>
   );

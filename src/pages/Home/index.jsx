@@ -1,7 +1,7 @@
 import HomePage from "../../components/HomePage";
 
-const Home = () => {
-  return <HomePage></HomePage>;
+const Home = ({ setIsAuth }) => {
+  return <HomePage setIsAuth={setIsAuth}></HomePage>;
 };
 
 export default Home;

@@ -32,15 +32,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddTecks = ({ setTecks }) => {
-  const [user, setUser] = useState({});
-
+const AddTecks = ({ setTecks, setIsAuth }) => {
   const [token, setToken] = useState(() => {
-    const sessionToken = localStorage.getItem("token");
-    let bearer = "Bearer";
-    return bearer + "" + JSON.parse(sessionToken);
+    const localToken = localStorage.getItem("token") || "";
+
+    if (!localToken) {
+      return "";
+    }
+    setIsAuth(true);
+    return JSON.parse(localToken);
   });
 
+  const [user, setUser] = useState({});
+  console.log(token);
   useEffect(() => {}, [token]);
   const history = useHistory();
   const classes = useStyles();
@@ -57,6 +61,9 @@ const AddTecks = ({ setTecks }) => {
       })
       .catch((e) => console.log(e));
   };
+  if (!token) {
+    history.push("/register");
+  }
 
   return (
     <>

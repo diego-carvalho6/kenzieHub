@@ -55,20 +55,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HomePage = () => {
+const HomePage = ({ setIsAuth }) => {
   const classes = useStyles();
   const history = useHistory();
   const [user, setUser] = useState({});
 
   const [token, setToken] = useState(() => {
-    const sessionToken = localStorage.getItem("token") || "";
-    return JSON.parse(sessionToken);
+    const localToken = localStorage.getItem("token") || "";
+
+    if (!localToken) {
+      return "";
+    }
+    setIsAuth(true);
+    return JSON.parse(localToken);
   });
 
   useEffect(() => {
     axios
       .get("https://kenziehub.me/profile", {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `bearer ${token}` },
       })
       .then((response) => {
         setUser(response.data);
@@ -77,6 +82,11 @@ const HomePage = () => {
         console.log(e);
       });
   }, []);
+
+  if (!token) {
+    history.push("/register");
+  }
+
   return (
     <div className={classes.box}>
       <div className={classes.boxInside}>

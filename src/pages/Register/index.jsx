@@ -6,7 +6,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-
+import { useState } from "react";
 const useStyles = makeStyles((theme) => ({
   button: {
     width: "41%",
@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Register = () => {
+  const [error, setError] = useState(null);
   const schema = yup.object().shape({
     email: yup.string().email("email invalido").required("campo obrigatorio"),
     name: yup.string().required("campo obrigatorio"),
@@ -61,7 +62,7 @@ const Register = () => {
         reset();
         history.push("/");
       })
-      .catch((e) => console.log(e));
+      .catch((e) => setError("usuario ja cadastrado"));
   };
   return (
     <div className={classes.box}>
@@ -149,6 +150,7 @@ const Register = () => {
       >
         Voltar
       </Button>
+      {error ? <div>{error}</div> : console.log(error)}
     </div>
   );
 };
